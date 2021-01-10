@@ -49,7 +49,7 @@ class Request(db.Model):
 
 db.create_all()
 
-
+"""
 #наполнение БД из json файла
 with open("data.json", "r", encoding='utf-8') as f:
     teachers_list = json.load(f)
@@ -58,7 +58,7 @@ for teacher in teachers_list:
                       picture=teacher["picture"], price=int(teacher["price"]), goals=str(teacher["goals"]), free=json.dumps(teacher["free"]))
     db.session.add(teacher)
 db.session.commit()
-
+"""
 
 
 @app.route('/')
@@ -77,27 +77,15 @@ def render_all():
 
 @app.route('/goals/<goal>/')
 def render_goal(goal):
-    with open("data.json", "r", encoding='utf-8') as f:
-        teachers_list = json.load(f)
-    teachers_by_goal = []
-    for teacher in teachers_list:
-        if goal in teacher["goals"]:
-            teachers_by_goal.append(teacher)
+    teachers_by_goal = db.session.query(Teacher).filter(Teacher.goals.contains(goal)).order_by(Teacher.rating.desc())
     return render_template('goal.html', goal=goals[goal], teachers_by_goal=teachers_by_goal)
-
 
 @app.route('/profiles/<id>/')
 def render_teacher(id):
-    with open("data.json", "r", encoding='utf-8') as f:
-        teachers_list = json.load(f)
-    teacher = None
-    for temp in teachers_list:
-        if temp["id"] == int(id):
-            teacher = temp
-    if teacher is None:
+    teacher_profile = db.session.query(Teacher).get(int(id))
+    if teacher_profile is None:
         return "Что-то не так, но мы все починим:\n{}".format(404)
-    return render_template('profile.html', teacher=teacher, goals=goals, days=days)
-
+    return render_template('profile.html', teacher=teacher_profile, goals=goals, days=days, free=json.loads(teacher_profile.free))
 
 @app.route('/request/')
 def render_request():

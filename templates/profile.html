@@ -17,7 +17,7 @@
 
             <section class="available">
               <h4 class="mb-4 mt-5">Записаться на пробный урок</h4>
-              {% for free_day, free_time in teacher.free.items() %}
+              {% for free_day, free_time in free.items() %}
                 <h6 class="mt-4">{{ days[free_day] }}</h6>
                 {% set ns = namespace(freeDay = True) %}
                 {% for time, status in free_time.items() %}
