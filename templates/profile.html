@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+  {% block container %}
+  <main class="container mt-3">
+    <div class="card my-4 mx-auto">
+      <div class="card-body m-2 m-md-4">
+        <article class="row">
+          <div class="col-5"><img src= {{ teacher.picture }} class="img-fluid" alt=""></div>
+          <div class="col-7">
+
+            <section class="teacher=info">
+
+              <h1 class="h2">{{ teacher.name }}</h1>
+              <p><span class="badge badge-secondary mr-2">{% for goal in teacher.goals %}{{ goals[goal] }} {% endfor %}</span>Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час</p>
+              <p>{{ teacher.about }}</p>
+
+            </section>
+
+            <section class="available">
+              <h4 class="mb-4 mt-5">Записаться на пробный урок</h4>
+              {% for free_day, free_time in teacher.free.items() %}
+                <h6 class="mt-4">{{ days[free_day] }}</h6>
+                {% set ns = namespace(freeDay = True) %}
+                {% for time, status in free_time.items() %}
+                  {% if status == True %}
+                    <a href="/booking/{{ teacher.id }}/{{ days[free_day] }}/{{ time }}/" class="btn btn-outline-success mr-2 mb-2">{{ time }} свободно</a>
+                  {% set ns.freeDay = False %}
+                  {% endif %}
+                {% endfor %}
+              {% if ns.freeDay %}
+                <p>Нет свободных уроков</p>
+              {% endif %}
+              {% endfor %}
+            </section>
+
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
+ {% endblock %}

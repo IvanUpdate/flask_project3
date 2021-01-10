@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+  {% block container %}
+  <main class="container mt-3">
+    <h1 class="h1 text-center w-50 mx-auto mt-1 py-5 mb-4"><strong>Все преподаватели</strong></h1>
+
+
+
+      <div class="row">
+      <div class="col-12 col-lg-10 offset-lg-1 m-auto">
+
+
+        <div class="card mb-4">
+          <div class="card-body align-right">
+
+            <p class="lead float-left d-inline-block mt-2 mb-0"><strong>{{ number_of_teachers }} преподавателей в базе</strong></p>
+
+            <form class="float-right d-inline-block">
+              <div class="form-inline">
+                <select class="custom-select my-1 mr-2" id="inlineFormCustomSelectPref"  name="sorted">
+                  <option selected value="0">В случайном порядке</option>
+                  <option value="3">Сначала лучшие по рейтингу</option>
+                  <option value="1">Сначала дорогие</option>
+                  <option value="2">Сначала недорогие</option>
+                </select>
+                <button type="submit" class="btn btn-primary my-1">Сортировать</button>
+              </div>
+            <form>
+
+          </div>
+        </div>
+
+        {% for teacher in teachers %}
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3"><img src={{ teacher.picture }} class="img-fluid" alt=""></div>
+              <div class="col-9">
+                <p class="float-right">Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час</p>
+                <h2 class="h4">{{ teacher.name }}</h2>
+                <p>{{ teacher.about }}</p>
+                <a href="/profiles/{{ teacher.id }}/" class="btn btn-outline-primary btn-sm mr-3 mb-2">Показать информацию и расписание</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <h2 class="text-center mt-5 mb-3">Не нашли своего репетитора?</h2>
+    <p class="text-center mb-4">Расскажите, кто вам нужен и мы подберем его сами</p>
+    <div class="text-center pb-5">
+        <a href="request.html" class="btn btn-primary">Заказать подбор</a>
+    </div>
+
+
+  </main>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+  {% endblock %}
